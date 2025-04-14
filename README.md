@@ -26,13 +26,13 @@ A lightweight and flexible Node.js package to extract and visualize file system 
 ### Global Installation (for CLI usage)
 
 ```bash
-npm install -g @davitacols/ansa-fs
+npm install -g ansa-fs
 ```
 
 ### Local Installation (for programmatic usage)
 
 ```bash
-npm install @davitacols/ansa-fs
+npm install ansa-fs
 ```
 
 ## CLI Usage
