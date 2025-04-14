@@ -1,0 +1,38 @@
+{
+    "name": "ansa-fs",
+    "version": "2.0.0",
+    "description": "A lightweight and flexible Node.js package to extract and visualize file system structures",
+    "main": "src/index.js",
+    "bin": {
+      "ansa-fs": "src/cli.js"
+    },
+    "scripts": {
+      "test": "jest",
+      "lint": "eslint src/**/*.js"
+    },
+    "keywords": ["file-system", "directory", "structure", "tree", "visualization", "fs", "files", "folders"],
+    "author": "David Ansa <davitacols@gmail.com>",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/davitacols/ansa-fs.git"
+    },
+    "bugs": {
+      "url": "https://github.com/davitacols/ansa-fs/issues"
+    },
+    "homepage": "https://github.com/davitacols/ansa-fs#readme",
+    "dependencies": {
+      "chalk": "^4.1.2",
+      "chokidar": "^3.5.3",
+      "commander": "^9.4.1",
+      "ora": "^5.4.1"
+    },
+    "devDependencies": {
+      "eslint": "^8.26.0",
+      "jest": "^29.2.2"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    }
+  }
+  
