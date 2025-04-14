@@ -1,6 +1,6 @@
 {
     "name": "ansa-fs",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "A lightweight and flexible Node.js package to extract and visualize file system structures",
     "main": "src/index.js",
     "bin": {
