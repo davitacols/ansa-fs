@@ -3,16 +3,14 @@
  * Provides utilities for analyzing file contents
  */
 
-const path = require("path")
-
 /**
  * Detect code complexity based on file content
  * @param {string} content - File content
  * @param {string} language - Detected language
  * @returns {Object} - Complexity metrics
  */
-function analyzeCodeComplexity(content, language) {
-  if (!content) return null
+export function analyzeCodeComplexity(content, language) {
+  if (!content) return null;
 
   const metrics = {
     lines: 0,
@@ -20,14 +18,14 @@ function analyzeCodeComplexity(content, language) {
     commentLines: 0,
     blankLines: 0,
     complexity: "low",
-  }
+  };
 
   // Count lines
-  const lines = content.split("\n")
-  metrics.lines = lines.length
+  const lines = content.split("\n");
+  metrics.lines = lines.length;
 
   // Count blank lines
-  metrics.blankLines = lines.filter((line) => line.trim() === "").length
+  metrics.blankLines = lines.filter((line) => line.trim() === "").length;
 
   // Language-specific analysis
   switch (language) {
@@ -35,18 +33,18 @@ function analyzeCodeComplexity(content, language) {
     case "JavaScript (React)":
     case "TypeScript":
     case "TypeScript (React)":
-      return analyzeJavaScript(content, metrics)
+      return analyzeJavaScript(content, metrics);
     case "Python":
-      return analyzePython(content, metrics)
+      return analyzePython(content, metrics);
     case "Java":
     case "C":
     case "C++":
     case "C#":
-      return analyzeCStyle(content, metrics)
+      return analyzeCStyle(content, metrics);
     default:
       // Basic analysis for other languages
-      metrics.codeLines = metrics.lines - metrics.blankLines
-      return calculateComplexity(metrics)
+      metrics.codeLines = metrics.lines - metrics.blankLines;
+      return calculateComplexity(metrics);
   }
 }
 
@@ -55,68 +53,68 @@ function analyzeCodeComplexity(content, language) {
  * @private
  */
 function analyzeJavaScript(content, metrics) {
-  let inBlockComment = false
-  let commentLines = 0
-  let codeLines = 0
+  let inBlockComment = false;
+  let commentLines = 0;
+  let codeLines = 0;
 
   // Count functions and classes
-  const functionMatches = content.match(/function\s+\w+\s*$$|\(\s*$$\s*=>|\w+\s*$$\s*$$\s*{/g) || []
-  const classMatches = content.match(/class\s+\w+/g) || []
-  const complexityFactors = functionMatches.length + classMatches.length
+  const functionMatches = content.match(/function\s+\w+\s*$$|\(\s*$$\s*=>|\w+\s*$$\s*$$\s*{/g) || [];
+  const classMatches = content.match(/class\s+\w+/g) || [];
+  const complexityFactors = functionMatches.length + classMatches.length;
 
   // Analyze lines
-  const lines = content.split("\n")
+  const lines = content.split("\n");
 
   for (const line of lines) {
-    const trimmedLine = line.trim()
+    const trimmedLine = line.trim();
 
-    if (trimmedLine === "") continue
+    if (trimmedLine === "") continue;
 
     if (inBlockComment) {
-      commentLines++
+      commentLines++;
       if (trimmedLine.includes("*/")) {
-        inBlockComment = false
+        inBlockComment = false;
       }
     } else if (trimmedLine.startsWith("//")) {
-      commentLines++
+      commentLines++;
     } else if (trimmedLine.startsWith("/*")) {
-      commentLines++
+      commentLines++;
       if (!trimmedLine.includes("*/")) {
-        inBlockComment = true
+        inBlockComment = true;
       }
     } else {
-      codeLines++
+      codeLines++;
 
       // Check for inline comments
       if (trimmedLine.includes("//")) {
-        commentLines++
+        commentLines++;
       }
     }
   }
 
-  metrics.commentLines = commentLines
-  metrics.codeLines = codeLines
-  metrics.functions = functionMatches.length
-  metrics.classes = classMatches.length
+  metrics.commentLines = commentLines;
+  metrics.codeLines = codeLines;
+  metrics.functions = functionMatches.length;
+  metrics.classes = classMatches.length;
 
   // Calculate cyclomatic complexity (simplified)
-  const conditionals = (content.match(/if\s*\(|else|switch|case|for\s*\(|while\s*\(|catch\s*\(/g) || []).length
-  metrics.conditionals = conditionals
+  const conditionals = (content.match(/if\s*\(|else|switch|case|for\s*\(|while\s*\(|catch\s*\(/g) || []).length;
+  metrics.conditionals = conditionals;
 
   // Calculate complexity score
-  const complexityScore = complexityFactors * 2 + conditionals
+  const complexityScore = complexityFactors * 2 + conditionals;
 
   if (complexityScore > 50) {
-    metrics.complexity = "very high"
+    metrics.complexity = "very high";
   } else if (complexityScore > 30) {
-    metrics.complexity = "high"
+    metrics.complexity = "high";
   } else if (complexityScore > 15) {
-    metrics.complexity = "medium"
+    metrics.complexity = "medium";
   } else {
-    metrics.complexity = "low"
+    metrics.complexity = "low";
   }
 
-  return metrics
+  return metrics;
 }
 
 /**
@@ -124,72 +122,72 @@ function analyzeJavaScript(content, metrics) {
  * @private
  */
 function analyzePython(content, metrics) {
-  let commentLines = 0
-  let codeLines = 0
-  let inMultilineString = false
+  let commentLines = 0;
+  let codeLines = 0;
+  let inMultilineString = false;
 
   // Count functions and classes
-  const functionMatches = content.match(/def\s+\w+\s*\(/g) || []
-  const classMatches = content.match(/class\s+\w+/g) || []
-  const complexityFactors = functionMatches.length + classMatches.length
+  const functionMatches = content.match(/def\s+\w+\s*\(/g) || [];
+  const classMatches = content.match(/class\s+\w+/g) || [];
+  const complexityFactors = functionMatches.length + classMatches.length;
 
   // Analyze lines
-  const lines = content.split("\n")
+  const lines = content.split("\n");
 
   for (const line of lines) {
-    const trimmedLine = line.trim()
+    const trimmedLine = line.trim();
 
-    if (trimmedLine === "") continue
+    if (trimmedLine === "") continue;
 
     if (inMultilineString) {
       if (trimmedLine.includes('"""') || trimmedLine.includes("'''")) {
-        inMultilineString = false
-        commentLines++
+        inMultilineString = false;
+        commentLines++;
       } else {
-        commentLines++
+        commentLines++;
       }
     } else if (trimmedLine.startsWith("#")) {
-      commentLines++
+      commentLines++;
     } else if (
       (trimmedLine.startsWith('"""') || trimmedLine.startsWith("'''")) &&
       !(trimmedLine.endsWith('"""') && trimmedLine.length > 3) &&
       !(trimmedLine.endsWith("'''") && trimmedLine.length > 3)
     ) {
-      commentLines++
-      inMultilineString = true
+      commentLines++;
+      inMultilineString = true;
     } else {
-      codeLines++
+      codeLines++;
 
       // Check for inline comments
       if (trimmedLine.includes("#")) {
-        commentLines++
+        commentLines++;
       }
     }
   }
 
-  metrics.commentLines = commentLines
-  metrics.codeLines = codeLines
-  metrics.functions = functionMatches.length
-  metrics.classes = classMatches.length
+  metrics.commentLines = commentLines;
+  metrics.codeLines = codeLines;
+  metrics.functions = functionMatches.length;
+  metrics.classes = classMatches.length;
 
   // Calculate cyclomatic complexity (simplified)
-  const conditionals = (content.match(/if\s+|elif\s+|else:|for\s+|while\s+|except\s+/g) || []).length
-  metrics.conditionals = conditionals
+  const conditionals = (content.match(/if\s+|elif\s+|else:|for\s+|while\s+|except\s+/g) || []).length;
+  metrics.conditionals = conditionals;
 
   // Calculate complexity score
-  const complexityScore = complexityFactors * 2 + conditionals
+  const complexityScore = complexityFactors * 2 + conditionals;
 
   if (complexityScore > 50) {
-    metrics.complexity = "very high"
+    metrics.complexity = "very high";
   } else if (complexityScore > 30) {
-    metrics.complexity = "high"
+    metrics.complexity = "high";
   } else if (complexityScore > 15) {
-    metrics.complexity = "medium"
+    metrics.complexity = "medium";
   } else {
-    metrics.complexity = "low"
+    metrics.complexity = "low";
   }
 
-  return metrics
+  return metrics;
 }
 
 /**
@@ -197,68 +195,68 @@ function analyzePython(content, metrics) {
  * @private
  */
 function analyzeCStyle(content, metrics) {
-  let inBlockComment = false
-  let commentLines = 0
-  let codeLines = 0
+  let inBlockComment = false;
+  let commentLines = 0;
+  let codeLines = 0;
 
   // Count functions and classes
-  const functionMatches = content.match(/\w+\s+\w+\s*$$[^)]*$$\s*{/g) || []
-  const classMatches = content.match(/class\s+\w+/g) || []
-  const complexityFactors = functionMatches.length + classMatches.length
+  const functionMatches = content.match(/\w+\s+\w+\s*$$[^)]*$$\s*{/g) || [];
+  const classMatches = content.match(/class\s+\w+/g) || [];
+  const complexityFactors = functionMatches.length + classMatches.length;
 
   // Analyze lines
-  const lines = content.split("\n")
+  const lines = content.split("\n");
 
   for (const line of lines) {
-    const trimmedLine = line.trim()
+    const trimmedLine = line.trim();
 
-    if (trimmedLine === "") continue
+    if (trimmedLine === "") continue;
 
     if (inBlockComment) {
-      commentLines++
+      commentLines++;
       if (trimmedLine.includes("*/")) {
-        inBlockComment = false
+        inBlockComment = false;
       }
     } else if (trimmedLine.startsWith("//")) {
-      commentLines++
+      commentLines++;
     } else if (trimmedLine.startsWith("/*")) {
-      commentLines++
+      commentLines++;
       if (!trimmedLine.includes("*/")) {
-        inBlockComment = true
+        inBlockComment = true;
       }
     } else {
-      codeLines++
+      codeLines++;
 
       // Check for inline comments
       if (trimmedLine.includes("//")) {
-        commentLines++
+        commentLines++;
       }
     }
   }
 
-  metrics.commentLines = commentLines
-  metrics.codeLines = codeLines
-  metrics.functions = functionMatches.length
-  metrics.classes = classMatches.length
+  metrics.commentLines = commentLines;
+  metrics.codeLines = codeLines;
+  metrics.functions = functionMatches.length;
+  metrics.classes = classMatches.length;
 
   // Calculate cyclomatic complexity (simplified)
-  const conditionals = (content.match(/if\s*\(|else|switch|case|for\s*\(|while\s*\(|catch\s*\(/g) || []).length
-  metrics.conditionals = conditionals
+  const conditionals = (content.match(/if\s*\(|else|switch|case|for\s*\(|while\s*\(|catch\s*\(/g) || []).length;
+  metrics.conditionals = conditionals;
 
   // Calculate complexity score
-  const complexityScore = complexityFactors * 2 + conditionals
+  const complexityScore = complexityFactors * 2 + conditionals;
 
   if (complexityScore > 50) {
-    metrics.complexity = "very high"
+    metrics.complexity = "very high";
   } else if (complexityScore > 30) {
-    metrics.complexity = "high"
+    metrics.complexity = "high";
   } else if (complexityScore > 15) {
-    metrics.complexity = "medium"
+    metrics.complexity = "medium";
   } else {
-    metrics.complexity = "low"
+    metrics.complexity = "low";
   }
 
-  return metrics
+  return metrics;
 }
 
 /**
@@ -268,14 +266,14 @@ function analyzeCStyle(content, metrics) {
 function calculateComplexity(metrics) {
   // Simple complexity calculation for unknown languages
   if (metrics.lines > 500) {
-    metrics.complexity = "high"
+    metrics.complexity = "high";
   } else if (metrics.lines > 200) {
-    metrics.complexity = "medium"
+    metrics.complexity = "medium";
   } else {
-    metrics.complexity = "low"
+    metrics.complexity = "low";
   }
 
-  return metrics
+  return metrics;
 }
 
 /**
@@ -285,10 +283,10 @@ function calculateComplexity(metrics) {
  * @param {string} language - Detected language
  * @returns {string[]} - Array of detected dependencies
  */
-function detectDependencies(content, filename, language) {
-  if (!content) return []
+export function detectDependencies(content, filename, language) {
+  if (!content) return [];
 
-  const dependencies = []
+  const dependencies = [];
 
   switch (language) {
     case "JavaScript":
@@ -296,8 +294,8 @@ function detectDependencies(content, filename, language) {
     case "TypeScript":
     case "TypeScript (React)":
       // Detect import statements
-      const importMatches = content.match(/import\s+.*?from\s+['"]([^'"]+)['"]/g) || []
-      const requireMatches = content.match(/require\s*$$\s*['"]([^'"]+)['"]\s*$$/g) || []
+      const importMatches = content.match(/import\s+.*?from\s+['"]([^'"]+)['"]/g) || [];
+      const requireMatches = content.match(/require\s*$$\s*['"]([^'"]+)['"]\s*$$/g) || [];
 
       // Extract package names
       importMatches.forEach((match) => {
@@ -308,7 +306,7 @@ function detectDependencies(content, filename, language) {
             dependencies.push(packageName)
           }
         }
-      })
+      });
 
       requireMatches.forEach((match) => {
         const packageMatch = match.match(/require\s*$$\s*['"]([^'"]+)['"]\s*$$/)
@@ -318,12 +316,12 @@ function detectDependencies(content, filename, language) {
             dependencies.push(packageName)
           }
         }
-      })
-      break
+      });
+      break;
 
     case "Python":
       // Detect import statements
-      const pythonImports = content.match(/import\s+(\w+)|from\s+(\w+)\s+import/g) || []
+      const pythonImports = content.match(/import\s+(\w+)|from\s+(\w+)\s+import/g) || [];
 
       pythonImports.forEach((match) => {
         const importMatch = match.match(/import\s+(\w+)/)
@@ -340,12 +338,12 @@ function detectDependencies(content, filename, language) {
             dependencies.push(packageName)
           }
         }
-      })
-      break
+      });
+      break;
 
     case "Java":
       // Detect import statements
-      const javaImports = content.match(/import\s+([^;]+);/g) || []
+      const javaImports = content.match(/import\s+([^;]+);/g) || [];
 
       javaImports.forEach((match) => {
         const importMatch = match.match(/import\s+([^;]+);/)
@@ -358,14 +356,9 @@ function detectDependencies(content, filename, language) {
             }
           }
         }
-      })
-      break
+      });
+      break;
   }
 
-  return dependencies
-}
-
-module.exports = {
-  analyzeCodeComplexity,
-  detectDependencies,
+  return dependencies;
 }

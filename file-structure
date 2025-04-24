@@ -1,0 +1,14 @@
+└── structree/
+    ├── .qodo/
+    │   └── history.sqlite
+    ├── src/
+    │   ├── cli.js
+    │   ├── color-coding.js
+    │   ├── content-analyzer.js
+    │   └── index.js
+    ├── .gitignore
+    ├── LICENSE.md
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    └── structure
