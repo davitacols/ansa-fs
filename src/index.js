@@ -2030,15 +2030,44 @@ function shouldIncludeComplexity(complexity, threshold) {
   return levels[complexity] >= levels[threshold];
 }
 
-module.exports = {
-  extractStructure,
-  formatAsTree,
-  toPaths,
-  filter,
-  getStats,
-  diffStructures,
-  exportToMarkdown,
-  exportToHtml, // Export the new HTML function
+// Export core functionality
+export { 
+  extractStructure, 
+  formatAsTree, 
+  toPaths, 
+  filter, 
+  getStats, 
+  diffStructures, 
+  exportToMarkdown, 
+  exportToHtml, 
   watchStructure,
-  analyzeCodeComplexity,
-}
+  analyzeCodeComplexity
+} from './core.js';
+
+// Export analyzers
+export { 
+  analyzeDuplication, 
+  generateDuplicationReport 
+} from './analyzers/duplication-analyzer.js';
+
+export { 
+  analyzeDependencies, 
+  generateDependencyGraph 
+} from './analyzers/dependency-analyzer.js';
+
+export { 
+  analyzeTechDebt, 
+  generateTechDebtReport 
+} from './analyzers/tech-debt-analyzer.js';
+
+export { 
+  analyzeGitHistory, 
+  generateGitReport 
+} from './analyzers/git-analyzer.js';
+
+// Export documentation analyzer
+export {
+  analyzeDocumentation,
+  generateMarkdownDocumentation,
+  generateHtmlDocumentation
+} from './analyzers/documentation-analyzer.js';

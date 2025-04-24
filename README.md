@@ -1,3 +1,112 @@
+# ansa-fs
+
+A lightweight and flexible Node.js package to extract and visualize file system structures with advanced code analysis.
+
+## Features
+
+- **Core Functionality**
+  - Extract file and directory structures from any directory
+  - Visualize as a tree, JSON, or list of paths
+  - Configurable depth and filtering options
+  - Ignore specific files, directories, or extensions
+
+- **Analysis Tools**
+  - Get statistics about your project structure
+  - Compare two directory structures and find differences
+  - Analyze file content and detect programming languages
+  - Calculate file hashes and track modification times
+  - Analyze code complexity across multiple languages
+  - Generate interactive HTML reports with visualizations
+
+- **Advanced Analysis**
+  - **Code Duplication Detection**: Find duplicate or similar code blocks
+  - **Dependency Graph Visualization**: Analyze and visualize project dependencies
+  - **Technical Debt Analysis**: Identify TODOs, complex files, and outdated patterns
+  - **Git History Analysis**: Understand file evolution and contributor patterns
+  - **NEW: Automatic Documentation Generation**: Create comprehensive project documentation
+
+- **Output Options**
+  - Export structures to Markdown
+  - Export to interactive HTML with charts and visualizations
+  - Watch directories for changes in real-time
+  - Use as a CLI tool or programmatically in your Node.js projects
+
+## Installation
+
+### Global Installation (for CLI usage)
+
+```bash
+npm install -g ansa-fs
+```
+### Adding Automatic Project Documentation Feature
+
+Let's add a powerful documentation generator to automatically document projects in both Markdown and HTML formats. This feature will help users quickly understand the projects they're working on.
+
+## 1. Create the Documentation Analyzer
+
+First, let's create a new analyzer module for documentation generation:
+
+```javascript project="File System Analyzer" file="src/analyzers/documentation-analyzer.js"
+...
+```
+
+I found some issues in the code block.
+
+- unexpected token `\`
+
+
+I will fix them.
+
+```javascript project="File System Analyzer" file="src/analyzers/documentation-analyzer.js"
+...
+```
+
+I found some issues in the code block.
+
+- Expected an expression but instead found '<'.
+
+
+I will fix them.
+
+```javascript project="File System Analyzer" file="src/analyzers/documentation-analyzer.js"
+...
+```
+
+## 2. Update the CLI to Support Documentation Generation
+
+Now, let's update the CLI to support the new documentation generation feature:
+
+```javascript project="File System Analyzer" file="src/cli.js"
+...
+```
+
+I found some issues in the code block.
+
+- The program variable is undeclared.
+- The options variable is undeclared.
+- The spinner variable is undeclared.
+- The structure variable is undeclared.
+- The fs variable is undeclared.
+
+
+I will fix them.
+
+```javascript project="File System Analyzer" file="src/cli.js"
+...
+```
+
+## 3. Update the index.js to Export the Documentation Analyzer
+
+```javascript project="File System Analyzer" file="src/index.js"
+...
+```
+
+## 4. Update the README.md with Documentation Feature
+
+```markdown project="File System Analyzer" file="README.md"
+...
+```
+
 ### Local Installation (for programmatic usage)
 
 ```shellscript
@@ -37,10 +146,10 @@ ansa-fs --stats
 # Export as Markdown
 ansa-fs --markdown
 
-# NEW: Export as interactive HTML
+# Export as interactive HTML
 ansa-fs --html
 
-# NEW: Export as interactive HTML with dark mode
+# Export as interactive HTML with dark mode
 ansa-fs --html --dark-mode
 
 # Write output to a file
@@ -50,32 +159,38 @@ ansa-fs --output structure.json --json
 ansa-fs --html --output report.html
 ```
 
-### Advanced Features
+### Advanced Analysis Features
 
 ```shellscript
-# Include file sizes
-ansa-fs --size
-
-# Include modification times
-ansa-fs --mod-time
-
-# Include file hashes
-ansa-fs --hash
-
-# Include file contents (for small text files)
-ansa-fs --content
-
-# Detect programming languages
-ansa-fs --detect-language
-
-# NEW: Analyze code complexity
+# Analyze code complexity
 ansa-fs --analyze-complexity
 
-# NEW: Set complexity threshold
+# Set complexity threshold
 ansa-fs --analyze-complexity --complexity-threshold medium
 
-# NEW: Include detailed complexity metrics
+# Include detailed complexity metrics
 ansa-fs --analyze-complexity --detailed-complexity
+
+# Detect code duplication
+ansa-fs --analyze-duplication --output duplication-report.html --html
+
+# Analyze project dependencies
+ansa-fs --analyze-dependencies --output dependency-graph.html --html
+
+# Analyze technical debt
+ansa-fs --analyze-tech-debt --output tech-debt-report.html --html
+
+# Analyze git history
+ansa-fs --analyze-git --output git-report.html --html
+
+# NEW: Generate project documentation
+ansa-fs --generate-docs
+
+# NEW: Generate documentation in specific format
+ansa-fs --generate-docs --docs-format html
+
+# NEW: Customize documentation output
+ansa-fs --generate-docs --docs-title "My Project Docs" --docs-output-dir "./project-docs"
 
 # Compare two directories
 ansa-fs --diff ./other-dir
@@ -84,33 +199,12 @@ ansa-fs --diff ./other-dir
 ansa-fs --watch
 ```
 
-### Code Complexity Analysis
-
-The new code complexity analysis feature examines source code files and provides metrics on:
-
-```shellscript
-# Generate a complete code complexity report in HTML format
-ansa-fs --analyze-complexity --html --output complexity-report.html
-
-# Show only high complexity files in the terminal
-ansa-fs --analyze-complexity --complexity-threshold high --stats
-```
-
-The complexity analysis supports:
-
-- JavaScript/TypeScript (including React)
-- Python
-- Java
-- C/C++/C#
-- And more languages with basic analysis
-
-
 ## Programmatic Usage
 
 ### Basic Usage
 
 ```javascript
-const { extractStructure, formatAsTree } = require('ansa-fs');
+import { extractStructure, formatAsTree } from 'ansa-fs';
 
 async function example() {
   // Extract the structure of a directory
@@ -123,126 +217,51 @@ async function example() {
 example();
 ```
 
-### With Custom Options
+### Using Advanced Analysis Features
 
 ```javascript
-const { extractStructure } = require('ansa-fs');
+import { 
+  extractStructure,
+  analyzeDuplication,
+  analyzeDependencies,
+  analyzeTechDebt,
+  analyzeGitHistory,
+  analyzeDocumentation,
+  generateMarkdownDocumentation,
+  generateHtmlDocumentation
+} from 'ansa-fs';
+import fs from 'fs';
 
-async function example() {
+async function analyzeProject() {
+  // Extract structure with content and complexity analysis
   const structure = await extractStructure('./my-project', {
-    maxDepth: 3,                               // Only go 3 levels deep
-    ignoreDirs: ['node_modules', '.git', 'dist'], // Directories to ignore
-    ignoreFiles: ['.DS_Store'],                // Files to ignore
-    ignoreExtensions: ['log', 'tmp'],          // Extensions to ignore
-    showFiles: true,                           // Include files (not just directories)
-    includeSize: true,                         // Include file and directory sizes
-    includeHash: true,                         // Include file hashes
-    includeModTime: true,                      // Include modification times
-    includeContent: true,                      // Include file contents
-    detectLanguage: true,                      // Detect programming languages
-    analyzeComplexity: true,                   // NEW: Analyze code complexity
-    complexityThreshold: "medium",             // NEW: Minimum complexity level to report
-  });
-  
-  console.log(JSON.stringify(structure, null, 2));
-}
-
-example();
-```
-
-### Working with the Structure
-
-```javascript
-const { 
-  extractStructure, 
-  getStats, 
-  filter, 
-  toPaths, 
-  diffStructures,
-  exportToMarkdown,
-  exportToHtml,  // NEW: HTML export function
-  watchStructure
-} = require('ansa-fs');
-
-async function example() {
-  const structure = await extractStructure('./my-project', {
+    includeContent: true,
+    detectLanguage: true,
     analyzeComplexity: true,
     includeSize: true
   });
   
-  // Get statistics
-  const stats = getStats(structure);
-  console.log(`Total directories: ${stats.directories}`);
-  console.log(`Total files: ${stats.files}`);
-  console.log(`Total size: ${stats.totalSizeFormatted}`);
-  
-  // NEW: Get complexity statistics
-  console.log(`Low complexity files: ${stats.complexityStats.low}`);
-  console.log(`Medium complexity files: ${stats.complexityStats.medium}`);
-  console.log(`High complexity files: ${stats.complexityStats.high}`);
-  console.log(`Very high complexity files: ${stats.complexityStats.veryHigh}`);
-  
-  // Filter the structure
-  const complexFiles = filter(structure, (node) => {
-    if (node.type === 'directory') return true; // Keep all directories
-    return node.complexity && 
-      (node.complexity.complexity === 'high' || 
-       node.complexity.complexity === 'very high'); // Only keep complex files
+  // Generate project documentation
+  const documentation = analyzeDocumentation(structure, {
+    title: 'My Project Documentation',
+    extractComments: true,
+    extractJsDoc: true
   });
   
-  // Get paths
-  const paths = toPaths(structure, { includeComplexity: true });
-  paths.forEach(path => console.log(path));
+  // Generate documentation in Markdown format
+  const markdown = generateMarkdownDocumentation(documentation);
+  fs.writeFileSync('docs/documentation.md', markdown);
   
-  // Compare with another directory
-  const otherStructure = await extractStructure('./other-project', { analyzeComplexity: true });
-  const diff = diffStructures(structure, otherStructure, { compareComplexity: true });
-  console.log(`Added: ${diff.added.length}`);
-  console.log(`Removed: ${diff.removed.length}`);
-  console.log(`Modified: ${diff.modified.length}`);
-  
-  // Export to Markdown
-  const markdown = exportToMarkdown(structure, {
-    title: 'My Project Structure',
-    includeStats: true,
-    includeSize: true,
-    includeComplexity: true,
-    includeDetailedComplexity: true
-  });
-  
-  // NEW: Export to HTML
-  const html = exportToHtml(structure, {
-    title: 'Code Complexity Analysis',
-    includeStats: true,
-    includeSize: true,
-    includeComplexity: true,
-    includeDetailedComplexity: true,
+  // Generate documentation in HTML format
+  const html = generateHtmlDocumentation(documentation, {
     darkMode: false
   });
+  fs.writeFileSync('docs/documentation.html', html);
   
-  // Save HTML report
-  const fs = require('fs');
-  fs.writeFileSync('complexity-report.html', html);
-  
-  // Watch for changes
-  const watcher = watchStructure('./my-project', (error, updatedStructure) => {
-    if (error) {
-      console.error('Error:', error.message);
-      return;
-    }
-    
-    console.log('Directory structure updated!');
-    console.log(formatAsTree(updatedStructure, { showComplexity: true }));
-  }, { analyzeComplexity: true });
-  
-  // Stop watching after 1 minute
-  setTimeout(() => {
-    watcher.stop();
-    console.log('Stopped watching');
-  }, 60000);
+  console.log('Documentation generated successfully!');
 }
 
-example();
+analyzeProject();
 ```
 
 ## API Reference
@@ -258,68 +277,58 @@ example();
 | `getStats(structure)` | Get statistics about the structure
 | `diffStructures(structureA, structureB, options)` | Compare two directory structures
 | `exportToMarkdown(structure, options)` | Export the structure to Markdown
-| `exportToHtml(structure, options)` | NEW: Export the structure to interactive HTML
+| `exportToHtml(structure, options)` | Export the structure to interactive HTML
 | `watchStructure(dirPath, callback, options)` | Watch a directory for changes
-| `analyzeCodeComplexity(content, language)` | NEW: Analyze code complexity of a file
+| `analyzeCodeComplexity(content, language)` | Analyze code complexity of a file
 
 
-### Structure Object Format
+### Advanced Analysis Functions
 
-```javascript
-{
-  name: "project-name",
-  path: "/absolute/path/to/project-name",
-  relativePath: "project-name",
-  type: "directory",
-  children: [
-    {
-      name: "src",
-      path: "/absolute/path/to/project-name/src",
-      relativePath: "project-name/src",
-      type: "directory",
-      children: [
-        {
-          name: "index.js",
-          path: "/absolute/path/to/project-name/src/index.js",
-          relativePath: "project-name/src/index.js",
-          type: "file",
-          extension: "js",
-          size: 1024,                      // If includeSize is true
-          sizeFormatted: "1.00 KB",        // If includeSize is true
-          modTime: Date,                   // If includeModTime is true
-          modTimeFormatted: "2023-01-01T...", // If includeModTime is true
-          hash: "d41d8cd98f00b204e9800998ecf8427e", // If includeHash is true
-          content: "...",                  // If includeContent is true
-          language: "JavaScript",          // If detectLanguage is true
-          complexity: {                    // NEW: If analyzeComplexity is true
-            complexity: "medium",          // Overall complexity rating
-            lines: 120,                    // Total lines
-            codeLines: 100,                // Lines of code
-            commentLines: 15,              // Lines of comments
-            blankLines: 5,                 // Blank lines
-            functions: 5,                  // Number of functions
-            classes: 1,                    // Number of classes
-            conditionals: 8                // Number of conditional statements
-          }
-        }
-      ]
-    }
-  ]
-}
-```
+| Function | Description
+|-----|-----
+| `analyzeDuplication(structure, options)` | Detect code duplication in the project
+| `generateDuplicationReport(results, options)` | Generate HTML report for code duplication
+| `analyzeDependencies(structure, options)` | Analyze project dependencies
+| `generateDependencyGraph(results, options)` | Generate HTML visualization of dependencies
+| `analyzeTechDebt(structure, options)` | Analyze technical debt in the project
+| `generateTechDebtReport(results, options)` | Generate HTML report for technical debt
+| `analyzeGitHistory(structure, options)` | Analyze git history of the project
+| `generateGitReport(results, options)` | Generate HTML report for git history
+| `analyzeDocumentation(structure, options)` | Analyze and extract documentation from project
+| `generateMarkdownDocumentation(documentation, options)` | Generate Markdown documentation
+| `generateHtmlDocumentation(documentation, options)` | Generate HTML documentation with interactive features
 
-### HTML Report Features
 
-The new HTML report includes:
+## Documentation Generator
 
-- Interactive file browser with expandable directories
-- Complexity distribution chart
-- Language distribution chart
-- Complexity by language chart
-- Complexity vs file size visualization
-- Sortable and filterable table of complex files
-- Dark/light mode toggle
-- Responsive design for desktop and mobile
+The new documentation generator automatically creates comprehensive project documentation by:
+
+1. **Extracting information from:**
+
+1. Code comments and docstrings
+2. JSDoc/JavaDoc annotations
+3. README files
+4. package.json metadata
+5. Project structure and statistics
+
+
+
+2. **Generating documentation in multiple formats:**
+
+1. Markdown for easy viewing on GitHub/GitLab
+2. Interactive HTML with navigation and visualizations
+
+
+
+3. **Documenting key project components:**
+
+1. Modules and files
+2. Classes and methods
+3. Functions and parameters
+4. Dependencies and relationships
+
+
+
 
 
 ## License
@@ -332,15 +341,79 @@ David Ansa `<davitacols@gmail.com>`
 
 ```plaintext
 
-The updated README now includes comprehensive information about the new HTML visualization and code complexity analysis features we added to the CLI tool. I've highlighted these new features with "NEW" labels to make them stand out, and I've added detailed sections explaining how to use them both from the CLI and programmatically.
+## 5. Example Usage
 
-<Actions>
-  <Action name="Add screenshots to README" description="Add screenshots of the HTML report to make the README more visual" />
-  <Action name="Create a demo website" description="Create a simple demo website showcasing the HTML reports" />
-  <Action name="Add examples directory" description="Create an examples directory with sample code" />
-  <Action name="Write a blog post" description="Write a blog post introducing the tool and its features" />
-  <Action name="Create video tutorial" description="Create a short video tutorial demonstrating the tool" />
-</Actions>
+Here's how users can use the new documentation feature:
 
+```javascript project="File System Analyzer" file="examples/generate-documentation.js" type="code"
+import { 
+  extractStructure, 
+  analyzeDocumentation, 
+  generateMarkdownDocumentation, 
+  generateHtmlDocumentation 
+} from 'ansa-fs';
+import fs from 'fs';
+import path from 'path';
 
+async function generateProjectDocumentation() {
+  console.log('Analyzing project structure...');
+  
+  // Extract the structure of the project
+  const structure = await extractStructure('./', {
+    includeContent: true,
+    detectLanguage: true,
+    analyzeComplexity: true,
+    includeSize: true,
+    maxDepth: Number.POSITIVE_INFINITY,
+    ignoreDirs: ['.git', 'node_modules', 'dist', 'build'],
+    ignoreFiles: ['.DS_Store']
+  });
+  
+  console.log('Generating documentation...');
+  
+  // Analyze and extract documentation
+  const documentation = analyzeDocumentation(structure, {
+    title: 'Project Documentation',
+    extractComments: true,
+    extractJsDoc: true,
+    includeReadme: true,
+    includePackageInfo: true,
+    includeStructure: true,
+    includeComplexity: true,
+    includeDependencies: true
+  });
+  
+  // Create docs directory if it doesn't exist
+  const docsDir = './docs';
+  if (!fs.existsSync(docsDir)) {
+    fs.mkdirSync(docsDir, { recursive: true });
+  }
+  
+  // Generate Markdown documentation
+  console.log('Generating Markdown documentation...');
+  const markdown = generateMarkdownDocumentation(documentation);
+  fs.writeFileSync(path.join(docsDir, 'documentation.md'), markdown);
+  
+  // Generate HTML documentation
+  console.log('Generating HTML documentation...');
+  const html = generateHtmlDocumentation(documentation, {
+    darkMode: false
+  });
+  fs.writeFileSync(path.join(docsDir, 'documentation.html'), html);
+  
+  // Generate dark mode HTML documentation
+  console.log('Generating dark mode HTML documentation...');
+  const darkHtml = generateHtmlDocumentation(documentation, {
+    darkMode: true
+  });
+  fs.writeFileSync(path.join(docsDir, 'documentation-dark.html'), darkHtml);
+  
+  console.log('Documentation generated successfully!');
+  console.log(`Documentation files are available in the ${docsDir} directory.`);
+}
+
+// Run the documentation generator
+generateProjectDocumentation().catch(error => {
+  console.error('Error generating documentation:', error);
+});
 ```
