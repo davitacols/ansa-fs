@@ -1,9 +1,3 @@
-I'll update the README to include the new HTML visualization functionality we added to the CLI tool.
-
-```markdown project="File System Analyzer" file="README.md"
-...
-```
-
 ### Local Installation (for programmatic usage)
 
 ```shellscript
